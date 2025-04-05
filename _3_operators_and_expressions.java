@@ -46,6 +46,9 @@ public class _3_operators_and_expressions{
         System.out.println("Precendence Order:\n 1. Post inc/dec ++,-- \n 2. Pre inc/dec ++,-- and unary +,- \n 3. *,/,% \n 4. +,- \n 5. Shift <<,>>,>>> \n 6. <=,>=,<,> \n 7. Equality == ,!= \n 8. Bitwise and & \n 9. Bitwise OR | \n 10.logical and && \n 11. logical or || \n 12. ternary ?: \n 13. assignment =,+=,-=,*=,/=,%=,<=,>=");
 
         System.out.println("Smaller datatype values can be stored wihtin larger dataype variables, easiyl,as it cn accomadate it, it si performed implecieitly, it;s called upasting or widening. If a larger datatype value needs to eb stored in a smaller dattype value, it needs to be explecieitly typecasted i.e short a = 10, byte b = (byte)a. It;s caleld as narrowing or downcasting. If the larger adttype value is greater than the max no of bits possible for the shorter dattype var., then lossy conversion happens. Note,  boolean datatype cannto eb downcasted or upcasted with any other datatypes and the only dattype that can eb done increment/decrement is boolean.");
+        int ice = 500;
+        ice+=72.8414;
+        System.out.println("the compound assignment operator (+=) includes an implicit cast back to the type of the left-hand variable. So you won't get a compile error, but the fractional part of the number (0.8414) will be lost in the process "+ ice+ " This is different from trying to do a direct assignment like ice = ice + 72.8414; which would cause a compilation error because you'd need an explicit cast.");
     }
 }
 
