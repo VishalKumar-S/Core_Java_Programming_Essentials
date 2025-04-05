@@ -1,32 +1,45 @@
 import java.util.*;
 public class _2_data_types_variables {
     public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter ur name, ill capture ur first name alone");
-        String f_name = sc.next();
-        System.out.println("MY first name is " + f_name);
-        System.out.println("Enter ur name, ill capture ur entire name");
-        String name = sc.nextLine();
-        System.out.println("MY full name is " + name);
+        System.out.println("Common issue in Java, is end-of-line buffer problem whie getting input. The end-of-line buffer problem arises in Java when we mix Scanner's nextLine() method with other input methods like nextInt() or next(). It can lead to unexpected behavior where the input buffer retains a newline character (\\n" + //
+        ") and disrupts the program's flow. When you use a method like nextInt() or next(), these methods consume only the specific data (e.g., integer or word) and leave the newline character (\\n" + //
+        ") in the input buffer. The subsequent call to nextLine() reads this leftover newline, which causes it to behave as if an empty line was entered.");
 
-        System.out.println("The issue is, after getting teh firs name 'vishal' from the input buffer, still ' kumar' is left over in the input buffer. So, it used it, while printing the entire name.Solution is to clear the existing input buffer here");
-        System.out.println("Enter ur name, ill capture ur first name alone");
-        f_name = sc.next();
-        System.out.println("MY first name is " + f_name);
-        sc.nextLine();
-        System.out.println("Enter ur name, ill capture ur entire name");
-        name = sc.nextLine();
-        System.out.println("MY full name is " + name);
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.println("Enter an integer:");
+        int number = scanner.nextInt(); // Reads the integer but leaves the newline in the buffer.
+
+        System.out.println("Enter a string:");
+        String text = scanner.nextLine(); // Reads the leftover newline instead of waiting for user input.
+
+        System.out.println("Number: " + number);
+        System.out.println("Text: " + text);
+        
+        System.out.println("Notice how text appears empty because nextLine() consumed the newline left by nextInt(). To resolve this, you need to clear the input buffer before calling nextLine(). This can be done by adding an extra scanner.nextLine() after using nextInt() or similar methods to consume the leftover newline character or u need to use nextLine() itself instead of nextInt() or next() and then parse the necessary data by ourself e.g., int number = Integer.parseInt(scanner.nextLine());");
+
+        System.out.println("Enter an integer:");
+        number = scanner.nextInt(); // Reads the integer.
+
+        scanner.nextLine(); // Clears the leftover newline from the buffer.
+
+        System.out.println("Enter a string:");
+        text = scanner.nextLine(); // Now properly waits for user input.
+
+        System.out.println("Number: " + number);
+        System.out.println("Text: " + text);
+
+
         System.out.println("To set a custom base/radix, u can use sc.useradix() to");
-        sc.useRadix(2);
+        scanner.useRadix(2);
         System.out.println("Enter the binary no");
-        int bin_no = sc.nextInt();
+        int bin_no = scanner.nextInt();
         System.out.println("The binary no's decimal value is " + bin_no);
         System.out.println("Languages like C, C++ only supports ASCII, so char is 1 byte over there, here Java, supports unicode, which is a superset of ascii, i.e it can store other languages than English like french, Spanish etc.,. So, char is 2 bytes is Java. In c,c++, python true/false can be interchanged with 0/1, whereas in Java, strictly True/False only should be used. You can't use like boolean x = 1/0 it's wrong, u can only write it as boolean x  = True/False");
         System.out.println("All primitive wrappers Integer, Double, Boolean, etc., String, StringBuffer, StringBuilder, Math,Thread,System all r present inside java.lang pkg");
         System.out.println("Java.util contains Utility classes for data manipulation, collections, input handling, and more, which need explicit import.");
         System.out.println("Integer Types:");
-        System.out.println("Default integral data type/ non-decimal datatype of Java is Integer. All the integral data types are signed. i.e they repr., both +ve and -ve no's.for eg., In an 8 bit signed integer, the MSB bit points whether the no is +ve/-ve, the remaining 7 bits say the value range i.e -127 to 127. For e.g., 01111111 - 127, 11111111 - -127. To convert from +ve into -ve or vice versa of a no, take its 2 complement i.e invert the bits and add +1.");
+        System.out.println("Default integral data type/ non-decimal datatype of Java is Integer(4B or 32 bits). All the integral data types are signed. i.e they repr., both +ve and -ve no's.for eg., In an 8 bit signed integer, the MSB bit points whether the no is +ve/-ve, the remaining 7 bits say the value range i.e -127 to 127. For e.g., 01111111 - 127, 11111111 - -127. To convert from +ve into -ve or vice versa of a no, take its 2 complement i.e invert the bits and add +1.");
         System.out.println("Binary rep., of integer +5 is " + Integer.toBinaryString((5)));
         System.out.println("Binary rep., of integer -5 is " + Integer.toBinaryString((-5)));
     
@@ -38,12 +51,13 @@ public class _2_data_types_variables {
         System.out.println("If you only need the range of a 32-bit int, using a 64-bit long would be wasteful in terms of memory. The long takes double the space (64 bits), which could lead to increased memory consumption, cache usage, and potentially reduced performance for some operations due to the larger memory footprint.");
         System.out.println("\nFloating-Point Types:");
         System.out.println("IEEE 754 is a technical standard for floating-point arithmetic. PC don't store decimal values as such, like 157.4, it will store it like 1574 * 10 in memory, 1574-mantissa, 10 -exponent");
-        System.out.println("Default decimal data type of Java is Double");
+        System.out.println("Default decimal data type of Java is Double(8B or 64 bits)");
         int i = 'A';
         float f = 'A';  
         System.out.println("Character A "  + "converted to int: " + i);
         System.out.println("Character A"  + "converted to float: " + f);
         System.out.println("Java allows automatic conversion from char to float/int because a char (16-bit Unicode) fits within the larger range of a float (32-bit), int (32-bit). This is called widening primitive conversion. Java's conversion hierarchy: char → int → long → float → double, No explicit casting required when converting to a wider type since no data loss occurs, Reverse conversion (float to char) requires explicit casting");
+        System.out.println("float a = 18.5, is wrong,it leads to lossy conversion, since by default, decimal are double in Java, so u need to write is as float a = 18.5f");
         System.out.println("float: " + Float.MIN_VALUE + " to " + Float.MAX_VALUE + " (32-bit/ 4 Byte, 6-7 decimal digits precision)");
         System.out.println("double: " + Double.MIN_VALUE + " to " + Double.MAX_VALUE + " (64-bit/ 8 Byte, 15-16 decimal digits precision)");
         System.out.println("It is possible to assign a character to a float variable like this: float f = 'A'; it will store the ascii value of A");
@@ -69,7 +83,7 @@ public class _2_data_types_variables {
         System.out.println("In Java, variables can start with alphabet, _ or $, cannot start with a no, variables follow camelcases in java, ie. first charcter starts with small, and he follwoing words first cahr starts with capital letter, for e.g, 'avgOfAll' ");
         
         byte a = 12;
-        byte b = 0b1100;
+        int b = 0b1100;
         byte c = 014;
         byte d = 0xc;
         System.out.println("In decimal form "+a);
@@ -82,7 +96,7 @@ public class _2_data_types_variables {
                 " * long L = 999999999999L, it is right, it's long literal now\n" +
                 " * int i = 125L; it's wrong, Long literal can't be stored in an integer datatype, that is, we can't store a higher valued literal to a lower valued datatype\n" +
                 " * float f = 25.75, it's wrong, by default, decimal values are represented in double format. Here, 25.75 is double, we can't represent a double literal (higher values) to a float datatype (lower valued datatype)\n" +
-                " * double d = 25.75 or double d = 25.75d, no issues, both are correct.\n" +
+                " * double d = 25.75 or double d = 25.75d or float f = 25.75f, no issues, both are correct.\n" +
                 " * We can represent large values using _, for better readability.\n" +
                 " * For eg., int i = 78_22_43_453 (for representing 78,22,43,453). No issues with it, but we can't represent it like int i = 453_ or 12._53 or 12.53_ i.e., at improper places where commas wouldn't come in the actual sense of representation we mean.\n" +
                 " * A 32-bit CPU means it can take/process 32 bits (4 bytes) of data at a time. If the data is more (e.g., long takes 8 bytes i.e., 64 bits), then the 32-bit processor processes it in 2 cycles to complete the task, whereas a 64-bit CPU can complete it in 1 clock cycle or 1 time itself.\n" +
