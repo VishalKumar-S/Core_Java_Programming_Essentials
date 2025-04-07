@@ -35,5 +35,16 @@ public class _4_strings {
         System.out.println("IF 1st string's char's ascii is higher than 2nd, it syas how mich its higher in postiive no,if 1st string char is lower than a2, it says how much its lower "+a1.compareTo(a2));
 
         System.out.println("");
+
+        System.out.println("Regex \n . - any single char is True \n [abc] e.g [a-z1-7]- any char within the char in [] \n [abc][vz] - 1st char should be a/b/c, 2nd char should be v/z \n A|B - singlc ahr either A or B \n  XZ - Eactly char should match XZ \n Metacharacters: \n \\d -single digit (ACtualy its' single backslash and d, but it's a escape char., so we r wrtiing \\d \n \\D - no digit \\s - Space \\S - no space \n \\w - alphabet or digit \\W - No alphabet or digit \n Quantifiers: \n * - 0/more time \n + - one or more time \n ? - 0/1 time \n {X} - X times \n {X,Y} - between X adn Y times");
+        String name = "Vishal Kumar. S";
+        String reg_exp = "([A-Z][a-z]*\\s)*[A-Z][a-z]*\\.\\s?[A-Z]";
+        System.out.println("Im writign a regex expression to ensure each word execpt the last word in the name, starts iwth a capital letter, rem charactere inthe word, can be 0/more lowercase characters, and after each word a space is there, and there can be any sich amount of words, and the final word shouldbe havin gthe first char as caps, rem as small, but no space after that, then a signle dot should be there, and a 0/1 spce can be there,a dn intial should be in capital. CHekc out the regex exp"+name.matches(reg_exp));
+        String names[] = {"VIshal Kumar. S", "Vishal Kumar. S", "Vishal Kumar K. S", "Vishal Kumar S", "Vishal Kumar.S" };
+        for (String x: names){
+            System.out.println(x+" "+ x.matches(reg_exp));
+
+        }
+
     }
 }
