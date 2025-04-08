@@ -10,10 +10,11 @@ class Student{
     }
     
     public String toString(){
-        return "print function automatically calls the toString method, in the parent Object class. Here, i overrided the toString() method, in the Student class and i used the print method to print this class obejct, so this method statemtn is automatically executed.";
+        return "When you use System.out.println(objectRef) or include a reference in a string concatenation, Java implicitly calls the toString() method on that object reference. The default implementation of toString() in the Object class (which all classes inherit from) returns a string in the format: getClass().getName() + '@' + Integer.toHexString(hashCode()). When you override toString() in your class, the println method will use your custom implementation instead of the default one. The magic happens through polymorphism. When println receives an object, it internally calls String.valueOf(obj), which in turn calls obj.toString(). Since the actual method called is determined at runtime based on the object's actual type (not its reference type), Java will use your overridden version if it exists.";
     }
 
 }   
+
 public class _8_class_and_objects {
     public static void main(String[] args) {
         Student s = new Student();
