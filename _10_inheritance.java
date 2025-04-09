@@ -158,6 +158,7 @@ public class _10_inheritance {
     System.out.println("Overriding is not possible for static and final methods. Access modifiers based on strictness: private>protected>public. Overriding is possible b/w methods of parent and child class methods, where the child class., method's access modifier's should be in the same strictness level or less strictness level than the parent method's access modifier. If the parent method is public, overrided chidl method  also shoudl eb public. If par., method is protected, voerrided chidl emthod should be only protected, public. If par., method is private, teh child's method can be private, protected or public.");
     System.out.println("Polymorphism (one name, diff., actions) contains Overlaoding (Compile time Polymorphism), where which emthod to eb called is decide based on the parameters, during compile time itself and Overriding (Run time polymorphism)");
     System.out.println("Private members of a superclass are not directly accessible to the subclass. It can be accesed only by using getters/setters provided by the superclass.");
+
   }   
 
   
