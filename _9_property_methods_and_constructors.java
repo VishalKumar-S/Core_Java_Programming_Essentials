@@ -136,10 +136,5 @@ public class _9_property_methods_and_constructors {
         }
 
         System.out.println(s4);
-
-
-
     }
-
-
 }
