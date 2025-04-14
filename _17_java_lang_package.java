@@ -41,11 +41,12 @@ enum Level{
 
 
 public class _17_java_lang_package {
+
     public static void main(String[] args) {
         Object o1 = new Object();
         Object o2 = new Object();
 
-        System.out.println("java.lang pakg automatically gets imported in java. It contains the superclass for all classes, Object class, which contains the methos liek toString(), .equals(), .hahscode(), multi-threading related methods");
+        System.out.println("java.lang pakg automatically gets imported in java. It contains the superclass for all classes, Object class, which contains the methos liek toString(), .equals(), .hahscode(), Math class, multi-threading related methods");
         System.out.println("Printing Object class's isntance: "+o1);
         System.out.println("Printing Object class's toString() method: "+o1.toString());
         System.out.println("both r same, when we print the object also, the print method automaticall calls the toString() method of the object class.");
