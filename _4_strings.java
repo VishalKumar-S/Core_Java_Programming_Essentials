@@ -43,7 +43,6 @@ public class _4_strings {
         String names[] = {"VIshal Kumar. S", "Vishal Kumar. S", "Vishal Kumar K. S", "Vishal Kumar S", "Vishal Kumar.S" };
         for (String x: names){
             System.out.println(x+" "+ x.matches(reg_exp));
-
         }
 
     }

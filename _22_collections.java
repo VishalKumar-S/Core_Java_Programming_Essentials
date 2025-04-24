@@ -171,7 +171,7 @@ class OrderByInsertionLinkedHashMap<K, V> extends LinkedHashMap<K,V>{
 
 public class _22_collections {
     public static void main(String[] args) {
-        System.out.println("COllections = Data Structures, gorup of data. All collections r present inside java.util package. Collection support any type of object, so they r called Generic.\n collection interface implements Iterable interface. Colelction interface contains common attirbutes all Data structure requires like add, addall, remove, remoceALl, contains, containsAll, equals, seize, iterator, toArray. Interfaces List, Set, Queue, Map implements from Collections and also have theri addn., methods based on their demand e.,g List-need ordering and indexing, Set-needs no duplicates. \n Interface List contains the classes - arraylsit, linekdlist, stack, vector, which implements the List interface.\n Queue interface is implemented by Piroity Queue class, Deque interface, where ArrayDeque class implemtns it.\nSet interface is implmented by hashSet, LinekHashset classes, SortedSet interface, which is implemented by TreeSet class\n Map interface is implemented  by hashmap, linkedhashmap, hashtable classes, sortedMap interface, which is implmented by TreeMap class.");
+        System.out.println("COllections = Data Structures, gorup of data. All collections r present inside java.util package. Collection support any type of object, so they r called Generic.\n collection interface implements Iterable interface. Colelction interface contains common attirbutes all Data structure requires like add, addall, remove, remoceALl, contains, containsAll, equals, seize, iterator, toArray. Interfaces List, Set, Queue, Map implements from Collections and also have theri addn., methods based on their demand e.,g List-need ordering and indexing, Set-needs no duplicates. \n Interface List contains the classes - arraylsit, linekdlist, stack, vector, which implements the List interface.\n Queue interface is implemented by Piroity Queue class, Deque interface, where ArrayDeque class implemtns it.\nSet interface is implmented by hashSet, LinekHashset classes, SortedSet interface, which is implemented by TreeSet class\n Map interface is implemented  by hashmap, linkedhashmap, hashtable classes, sortedMap interface, which is implmented by TreeMap class. A synchronized collection is thread-safe — meaning multiple threads can access it without corrupting the data. But synchronization comes at a performance cost ⛔ (slower). So, Java keeps most collections unsynchronized by default — for better speed. If you need thread safety, you opt-in. Synchronised class e.,f are Vector, Stack, HashTable, Proeprties -  which are legacy classes, and Collections.synchronizedXxx()\t - it Makes any List, Set, Map thread-safe. Most Modern classes r Non-synchronized (Not Thread-safe) e.g list,map,set realted alll classes. Since, 90% of the time, collections are used in single-threaded environments. Synchronization adds performance overhead. Java provides options to make them thread-safe if needed, instead of enforcing it always.");
 
 
         ArrayList <Integer> al1 = new ArrayList<>();
@@ -568,6 +568,7 @@ public class _22_collections {
             
             ObjectOutputStream writeObjects = new ObjectOutputStream(new FileOutputStream("C:/Users/HP/Desktop/BankApplication.txt"));
 
+            System.out.println("In Java, a HashMap stores key-value pairs, but when you want to iterate over both keys and values together, you need a view of the map in the form of entries. Each entry is a Map.Entry<K, V> object — which holds key and value. map.entrySet()  returns a set of all key-value pairs in the map, each as a Map.Entry.");
             for(Map.Entry<Integer, Bank> loop: accounts.entrySet()){
                 writeObjects.writeObject(loop.getValue());
             }
@@ -592,7 +593,7 @@ public class _22_collections {
 
 
             }
-                 
+
         } catch (Exception vsbsdbdbd) {
             // TODO: handle exception
         }
