@@ -3,6 +3,7 @@ import com.vishal.DBApplication.dao.Implementation.BookDaoImpl;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import com.vishal.DBApplication.book;
 import org.mockito.Mock;
@@ -25,5 +26,14 @@ public class BookDaoTest {
         underTest.create(book);
 
         verify(jdbcTemplate).update(eq("INSERT INTO book VALUES (?, ?, ?)"), eq("846-43484-243"), eq("The aware"), eq(12));
+    }
+
+
+
+    @Test
+    public void testReadBook() {
+        underTest.readOne("846-43484-243");
+
+        verify(jdbcTemplate).query(eq("SELECT * FROM book WHERE isbn = ?"), ArgumentMatchers.<BookDaoImpl.bookRowMapper>any(),eq("846-43484-243"));
     }
 }
