@@ -1,13 +1,11 @@
 package com.vishal.DBApplication;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class book {
     private String isbn;
     private String title;

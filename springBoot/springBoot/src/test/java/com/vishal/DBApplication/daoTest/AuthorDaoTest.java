@@ -3,6 +3,7 @@ import com.vishal.DBApplication.dao.Implementation.authorDaoImpl;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import com.vishal.DBApplication.author;
 import org.mockito.Mock;
@@ -25,5 +26,12 @@ public class AuthorDaoTest {
         underTest.create(author);
 
         verify(jdbcTemplate).update(eq("INSERT INTO author VALUES (?, ?, ?)"), eq(1L), eq("vishal"), eq(1));
+    }
+
+    @Test
+    public void testReadAuthor() {
+        underTest.readOne(12);
+
+        verify(jdbcTemplate).query(eq("SELECT * FROM author WHERE author_id = ?"), ArgumentMatchers.<authorDaoImpl.authorRowMapper>any() , eq(12));
     }
 }
