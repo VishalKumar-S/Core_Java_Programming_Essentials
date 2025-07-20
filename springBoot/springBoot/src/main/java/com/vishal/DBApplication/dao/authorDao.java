@@ -1,10 +1,10 @@
 package com.vishal.DBApplication.dao;
-import com.vishal.DBApplication.author;
+import com.vishal.DBApplication.Author;
 import java.util.Optional;
 
 public interface authorDao {
-    void create(author author);
-    Optional<author> readOne(Integer authorID);
+    void create(Author author);
+    Optional<Author> readOne(Integer authorID);
 }
 
 

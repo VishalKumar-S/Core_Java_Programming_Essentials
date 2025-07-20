@@ -2,7 +2,6 @@ package com.vishal.DBApplication;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
 
@@ -10,7 +9,7 @@ import lombok.Builder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class author {
+public class Author {
     private Integer author_id;
     private String name;
     private Integer age;

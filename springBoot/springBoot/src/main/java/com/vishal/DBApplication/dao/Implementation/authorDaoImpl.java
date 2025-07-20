@@ -1,6 +1,6 @@
 package com.vishal.DBApplication.dao.Implementation;
 import com.vishal.DBApplication.dao.authorDao;
-import com.vishal.DBApplication.author;
+import com.vishal.DBApplication.Author;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.ResultSet;
@@ -17,14 +17,14 @@ public class authorDaoImpl implements authorDao{
     }
 
     @Override
-    public void create(author author) {
+    public void create(Author author) {
         jdbcTemplate.update("INSERT INTO author VALUES (?, ?, ?)", author.getAuthor_id(), author.getName(), author.getAge());
     }
 
-    public static class authorRowMapper implements RowMapper<author>{
+    public static class authorRowMapper implements RowMapper<Author>{
         @Override
-        public author mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return author.builder()
+        public Author mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return Author.builder()
                     .author_id(rs.getInt("author_id"))
                     .name(rs.getString("name"))
                     .age(rs.getInt("age"))
@@ -35,8 +35,8 @@ public class authorDaoImpl implements authorDao{
     }
 
     @Override
-    public Optional<author> readOne(Integer authorID){
-        List<author> authorDetails = jdbcTemplate.query("SELECT * FROM author WHERE author_id = ?", new authorRowMapper(), authorID);
+    public Optional<Author> readOne(Integer authorID){
+        List<Author> authorDetails = jdbcTemplate.query("SELECT * FROM author WHERE author_id = ?", new authorRowMapper(), authorID);
         return authorDetails.stream().findFirst();
     }
 

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
-import com.vishal.DBApplication.book;
+import com.vishal.DBApplication.Book;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,7 +22,7 @@ public class BookDaoTest {
 
     @Test
     public void testCreateBook() {
-        book book = new book("846-43484-243", "The aware", 12);
+        Book book = Book.builder().isbn("846-43484-243").title("The aware").author_id(12).build();
         underTest.create(book);
 
         verify(jdbcTemplate).update(eq("INSERT INTO book VALUES (?, ?, ?)"), eq("846-43484-243"), eq("The aware"), eq(12));

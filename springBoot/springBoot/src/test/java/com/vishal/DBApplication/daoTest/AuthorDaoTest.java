@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
-import com.vishal.DBApplication.author;
+import com.vishal.DBApplication.Author;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,10 +22,10 @@ public class AuthorDaoTest {
 
     @Test
     public void testCreateAuthor() {
-        author author = new author(12, "vishal", 1);
+        Author author = Author.builder().author_id(12).name("vishal").age(1).build();
         underTest.create(author);
 
-        verify(jdbcTemplate).update(eq("INSERT INTO author VALUES (?, ?, ?)"), eq(1L), eq("vishal"), eq(1));
+        verify(jdbcTemplate).update(eq("INSERT INTO author VALUES (?, ?, ?)"), eq(12), eq("vishal"), eq(1));
     }
 
     @Test

@@ -1,10 +1,10 @@
 package com.vishal.DBApplication.dao;
-import com.vishal.DBApplication.author;
-import com.vishal.DBApplication.book;
+import com.vishal.DBApplication.Author;
+import com.vishal.DBApplication.Book;
 
 import java.util.Optional;
 
 public interface bookDao{
-    void create(book book);
-    Optional<book> readOne(String isbn);
+    void create(Book book);
+    Optional<Book> readOne(String isbn);
 }
