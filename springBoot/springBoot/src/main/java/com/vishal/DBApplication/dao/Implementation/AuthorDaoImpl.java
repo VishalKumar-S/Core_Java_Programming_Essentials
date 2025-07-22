@@ -8,11 +8,13 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
-public class authorDaoImpl implements authorDao{
+@Component
+public class AuthorDaoImpl implements authorDao{
     private JdbcTemplate jdbcTemplate;
 
-    public authorDaoImpl(JdbcTemplate jdbcTemplate){
+    public AuthorDaoImpl(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -30,8 +32,6 @@ public class authorDaoImpl implements authorDao{
                     .age(rs.getInt("age"))
                     .build();
         }
-
-
     }
 
     @Override
@@ -39,6 +39,13 @@ public class authorDaoImpl implements authorDao{
         List<Author> authorDetails = jdbcTemplate.query("SELECT * FROM author WHERE author_id = ?", new authorRowMapper(), authorID);
         return authorDetails.stream().findFirst();
     }
+
+    @Override
+    public List<Author> readAll(){
+        return jdbcTemplate.query("SELECT * FROM author", new authorRowMapper());
+    }
+
+
 
 
 }

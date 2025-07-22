@@ -12,7 +12,7 @@ drop table if exists "author" CASCADE;
 );
 
 
-CREATE TABLE "books" (
+CREATE TABLE "book" (
     "isbn" text primary key,
     "title" text,
     "author_id" integer,

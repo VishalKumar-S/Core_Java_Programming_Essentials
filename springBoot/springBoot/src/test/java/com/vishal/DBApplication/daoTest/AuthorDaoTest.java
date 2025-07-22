@@ -1,5 +1,5 @@
 package com.vishal.DBApplication.daoTest;
-import com.vishal.DBApplication.dao.Implementation.authorDaoImpl;
+import com.vishal.DBApplication.dao.Implementation.AuthorDaoImpl;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,11 +18,11 @@ public class AuthorDaoTest {
     private JdbcTemplate jdbcTemplate;
 
     @InjectMocks
-    private authorDaoImpl underTest;
+    private AuthorDaoImpl underTest;
 
     @Test
     public void testCreateAuthor() {
-        Author author = Author.builder().author_id(12).name("vishal").age(1).build();
+        Author author = TestDataUtil.getAuthor1();
         underTest.create(author);
 
         verify(jdbcTemplate).update(eq("INSERT INTO author VALUES (?, ?, ?)"), eq(12), eq("vishal"), eq(1));
@@ -32,6 +32,13 @@ public class AuthorDaoTest {
     public void testReadAuthor() {
         underTest.readOne(12);
 
-        verify(jdbcTemplate).query(eq("SELECT * FROM author WHERE author_id = ?"), ArgumentMatchers.<authorDaoImpl.authorRowMapper>any() , eq(12));
+        verify(jdbcTemplate).query(eq("SELECT * FROM author WHERE author_id = ?"), ArgumentMatchers.<AuthorDaoImpl.authorRowMapper>any() , eq(12));
+    }
+
+
+    @Test
+    public void testReadAll(){
+        underTest.readAll();
+        verify(jdbcTemplate).query(eq("SELECT * FROM author"),ArgumentMatchers.<AuthorDaoImpl.authorRowMapper>any());
     }
 }

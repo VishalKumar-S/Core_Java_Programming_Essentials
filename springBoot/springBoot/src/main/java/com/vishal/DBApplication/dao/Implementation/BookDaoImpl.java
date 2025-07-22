@@ -4,12 +4,14 @@ import com.vishal.DBApplication.dao.bookDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.vishal.DBApplication.Book;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class BookDaoImpl implements bookDao{
 
     private final JdbcTemplate jdbcTemplate;
@@ -38,4 +40,10 @@ public class BookDaoImpl implements bookDao{
         List<Book> bookDetails = jdbcTemplate.query("SELECT * FROM book WHERE isbn = ?", new BookDaoImpl.bookRowMapper(), isbn);
         return bookDetails.stream().findFirst();
     }
+
+    @Override
+    public List<Book> readAll(){
+        return jdbcTemplate.query("SELECT * FROM book", new BookDaoImpl.bookRowMapper());
+    }
+
 }

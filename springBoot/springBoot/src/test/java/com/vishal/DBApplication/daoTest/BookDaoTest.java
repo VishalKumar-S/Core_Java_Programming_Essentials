@@ -1,4 +1,5 @@
 package com.vishal.DBApplication.daoTest;
+import com.vishal.DBApplication.dao.Implementation.AuthorDaoImpl;
 import com.vishal.DBApplication.dao.Implementation.BookDaoImpl;
 
 import org.junit.jupiter.api.Test;
@@ -22,12 +23,11 @@ public class BookDaoTest {
 
     @Test
     public void testCreateBook() {
-        Book book = Book.builder().isbn("846-43484-243").title("The aware").author_id(12).build();
+        Book book = TestDataUtil.getBook1();
         underTest.create(book);
 
         verify(jdbcTemplate).update(eq("INSERT INTO book VALUES (?, ?, ?)"), eq("846-43484-243"), eq("The aware"), eq(12));
     }
-
 
 
     @Test
@@ -35,5 +35,11 @@ public class BookDaoTest {
         underTest.readOne("846-43484-243");
 
         verify(jdbcTemplate).query(eq("SELECT * FROM book WHERE isbn = ?"), ArgumentMatchers.<BookDaoImpl.bookRowMapper>any(),eq("846-43484-243"));
+    }
+
+    @Test
+    public void testReadAll(){
+        underTest.readAll();
+        verify(jdbcTemplate).query(eq("SELECT * FROM book"), ArgumentMatchers.<BookDaoImpl.bookRowMapper>any());
     }
 }
