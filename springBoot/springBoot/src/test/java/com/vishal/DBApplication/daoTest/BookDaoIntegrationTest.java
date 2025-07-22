@@ -69,6 +69,26 @@ public class BookDaoIntegrationTest {
     }
 
 
+    @Test
+    public void testBookCanBeUpdated(){
+        Author author1 = TestDataUtil.getAuthor1();
+        underTestAuthor.create(author1);
+
+        Book book1 = TestDataUtil.getBook1();
+        underTestBook.create(book1);
+
+
+        Author author3 = TestDataUtil.getAuthor3();
+        underTestAuthor.create(author3);
+        book1.setAuthor_id(author3.getAuthor_id());
+        book1.setTitle("Im updated book");
+        underTestBook.update(book1, book1.getIsbn());
+
+        Optional<Book> result = underTestBook.readOne(book1.getIsbn());
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(book1);
+    }
+
 
 
 }

@@ -8,6 +8,7 @@ public interface authorDao {
     void create(Author author);
     Optional<Author> readOne(Integer authorID);
     public List<Author> readAll();
+    void update(Author author, Integer authorID);
 }
 
 

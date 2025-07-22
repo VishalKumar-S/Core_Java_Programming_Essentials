@@ -1,4 +1,5 @@
 package com.vishal.DBApplication.daoTest;
+import com.vishal.DBApplication.Author;
 import com.vishal.DBApplication.dao.Implementation.AuthorDaoImpl;
 import com.vishal.DBApplication.dao.Implementation.BookDaoImpl;
 
@@ -42,4 +43,15 @@ public class BookDaoTest {
         underTest.readAll();
         verify(jdbcTemplate).query(eq("SELECT * FROM book"), ArgumentMatchers.<BookDaoImpl.bookRowMapper>any());
     }
+
+
+    @Test
+    public void testUpdateBook() {
+        Book book = TestDataUtil.getBook1();
+        book.setAuthor_id(14);
+        book.setTitle("Im updated book");
+        underTest.update(book, "846-43484-243");
+        verify(jdbcTemplate).update(eq("UPDATE book SET title = ?, author_id = ? WHERE isbn = ?"), eq("Im updated book"), eq(70), eq(12));
+    }
+
 }

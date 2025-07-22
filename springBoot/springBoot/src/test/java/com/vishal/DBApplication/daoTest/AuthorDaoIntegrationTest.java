@@ -56,4 +56,19 @@ public class AuthorDaoIntegrationTest {
     }
 
 
+    @Test
+    public void TestAuthorCanBeUpdated(){
+        Author author1 = TestDataUtil.getAuthor1();
+        underTest.create(author1);
+
+        author1.setAge(70);
+        author1.setName("Im updated author");
+        underTest.update(author1, 12);
+
+        Optional<Author> retrievedAuthor = underTest.readOne(12);
+        assertThat(retrievedAuthor).isPresent();
+        assertThat(retrievedAuthor.get()).isEqualTo(author1);
+    }
+
+
 }

@@ -9,5 +9,6 @@ public interface bookDao{
     void create(Book book);
     Optional<Book> readOne(String isbn);
     public List<Book> readAll();
+    void update(Book book, String isbn);
 
 }
