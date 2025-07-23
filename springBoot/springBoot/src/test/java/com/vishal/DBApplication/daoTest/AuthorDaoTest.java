@@ -50,4 +50,11 @@ public class AuthorDaoTest {
         underTest.update(author, 12);
         verify(jdbcTemplate).update(eq("UPDATE author SET name = ?, age = ? WHERE author_id = ?"), eq("Im updated author"), eq(70), eq(12));
     }
+
+
+    @Test
+    public void deleteAuthor(){
+        underTest.delete(TestDataUtil.getAuthor1(), 12);
+        verify(jdbcTemplate).update(eq("DELETE FROM author WHERE author_id = ?"), eq(12));
+    }
 }

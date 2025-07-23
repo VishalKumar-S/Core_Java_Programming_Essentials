@@ -50,4 +50,9 @@ public class BookDaoImpl implements bookDao{
     public void update(Book book, String isbn){
         jdbcTemplate.update("UPDATE book SET title = ?, author_id = ? WHERE isbn = ?", book.getTitle(), book.getAuthor_id(), isbn);
     }
+
+    @Override
+    public void delete(Book book, String isbn){
+        jdbcTemplate.update("DELETE FROM book WHERE isbn = ?", isbn);
+    }
 }

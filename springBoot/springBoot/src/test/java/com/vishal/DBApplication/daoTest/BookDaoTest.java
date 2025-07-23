@@ -54,4 +54,10 @@ public class BookDaoTest {
         verify(jdbcTemplate).update(eq("UPDATE book SET title = ?, author_id = ? WHERE isbn = ?"), eq("Im updated book"), eq(70), eq(12));
     }
 
+    @Test
+    public void deleteBook(){
+        underTest.delete(TestDataUtil.getBook1(), "846-43484-243");
+        verify(jdbcTemplate).update(eq("DELETE FROM book WHERE isbn = ?"), eq("846-43484-243"));
+    }
+
 }

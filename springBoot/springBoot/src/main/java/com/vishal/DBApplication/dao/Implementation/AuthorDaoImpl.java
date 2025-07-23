@@ -53,6 +53,11 @@ public class AuthorDaoImpl implements authorDao{
 
 
 
+    @Override
+    public void delete(Author author, Integer authorID){
+        jdbcTemplate.update("DELETE FROM author WHERE author_id = ?", authorID);
+    }
+
 
 
 

@@ -9,6 +9,8 @@ public interface authorDao {
     Optional<Author> readOne(Integer authorID);
     public List<Author> readAll();
     void update(Author author, Integer authorID);
+    void delete(Author author, Integer authorID);
+
 }
 
 
