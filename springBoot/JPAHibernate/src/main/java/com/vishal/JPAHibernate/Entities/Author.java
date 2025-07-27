@@ -1,5 +1,7 @@
 package com.vishal.JPAHibernate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "author")
 public class Author {
     @Id
@@ -21,6 +25,7 @@ public class Author {
 
     private String name;
 
+    @JsonProperty("vayasu")
     private Integer age;
 
     @OneToMany(
