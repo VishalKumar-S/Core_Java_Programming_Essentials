@@ -1,7 +1,7 @@
 package com.vishal.JPAHibernate.repositories;
 
-import com.vishal.JPAHibernate.Author;
-import com.vishal.JPAHibernate.Book;
+import com.vishal.JPAHibernate.Entities.Author;
+import com.vishal.JPAHibernate.Entities.Book;
 import com.vishal.JPAHibernate.TestDataUtil;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
@@ -12,8 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

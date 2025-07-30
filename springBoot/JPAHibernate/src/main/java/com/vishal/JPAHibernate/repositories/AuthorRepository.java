@@ -1,8 +1,7 @@
 package com.vishal.JPAHibernate.repositories;
 
-import com.vishal.JPAHibernate.Author;
+import com.vishal.JPAHibernate.Entities.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

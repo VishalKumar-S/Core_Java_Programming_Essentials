@@ -1,7 +1,6 @@
 package com.vishal.JPAHibernate.repositories;
 
-import com.vishal.JPAHibernate.Author;
-import com.vishal.JPAHibernate.Book;
+import com.vishal.JPAHibernate.Entities.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

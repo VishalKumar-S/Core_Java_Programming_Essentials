@@ -1,4 +1,6 @@
 package com.vishal.JPAHibernate.mappers;
 
-public interface mapper {
+public interface Mapper<A,B>{
+    B mapTo(A a);
+    A mapFrom(B b);
 }

@@ -1,4 +1,4 @@
-package com.vishal.JPAHibernate;
+package com.vishal.JPAHibernate.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,7 +23,8 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_id_seq")
     private Integer author_id;
 
-    private String name;
+//    private String name;
+    private String authorName;
 
     @JsonProperty("vayasu")
     private Integer age;

@@ -1,4 +1,4 @@
-package com.vishal.JPAHibernate;
+package com.vishal.JPAHibernate.Entities;
 
 import jakarta.persistence.*;
 import lombok.*;

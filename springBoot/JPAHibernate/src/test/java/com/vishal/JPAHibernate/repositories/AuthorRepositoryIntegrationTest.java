@@ -1,8 +1,8 @@
 package com.vishal.JPAHibernate.repositories;
 
-import com.vishal.JPAHibernate.Book;
+import com.vishal.JPAHibernate.Entities.Book;
 import com.vishal.JPAHibernate.TestDataUtil;
-import com.vishal.JPAHibernate.Author;
+import com.vishal.JPAHibernate.Entities.Author;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
