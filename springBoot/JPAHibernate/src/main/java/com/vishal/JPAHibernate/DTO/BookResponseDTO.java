@@ -1,8 +1,6 @@
 package com.vishal.JPAHibernate.DTO;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.vishal.JPAHibernate.Entities.Author;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookDTO {
+public class BookResponseDTO {
     private String isbn;
     private String title;
-
-    @JsonBackReference
-    private AuthorDTO author;
+    private AuthorResponseDTO author;
 }

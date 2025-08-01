@@ -19,7 +19,7 @@ public class TestDataUtil {
     }
 
     public static Author getAuthor1() {
-        return Author.builder().name("vishal").age(1).build();
+        return Author.builder().authorName("vishal").age(1).build();
     }
 
     public static AuthorDTO getAuthorDTO1() {
@@ -28,10 +28,11 @@ public class TestDataUtil {
 
 
     public static Author getAuthor2() {
-        return Author.builder().name("kumar").age(2).build();
+        return Author.builder().authorName("kumar").age(2).build();
     }
 
     public static Author getAuthor3() {
-        return Author.builder().name(". S").age(3).build();
+        return Author.builder().authorName(". S").age(3).build();
     }
+
 }

@@ -73,7 +73,7 @@ public class AuthorRepositoryIntegrationTest {
         underTestAuthor.save(author1);
 
         author1.setAge(70);
-        author1.setName("Im updated author");
+        author1.setAuthorName("Im updated author");
         underTestAuthor.save(author1);
 
         Optional<Author> retrievedAuthor = underTestAuthor.findById(author1.getAuthor_id());

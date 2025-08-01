@@ -2,20 +2,23 @@ package com.vishal.JPAHibernate.Controllers;
 
 
 import com.vishal.JPAHibernate.DTO.AuthorDTO;
+import com.vishal.JPAHibernate.DTO.BookDTO;
 import com.vishal.JPAHibernate.Entities.Author;
+import com.vishal.JPAHibernate.Entities.Book;
 import com.vishal.JPAHibernate.mappers.AuthorMapper;
 import com.vishal.JPAHibernate.services.AuthorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AuthorController {
 
-    private AuthorMapper authorMapper;
-    private AuthorService authorService;
+    private final AuthorMapper authorMapper;
+    private final AuthorService authorService;
 
     public AuthorController(AuthorMapper authorMapper, AuthorService authorService){
         this.authorMapper = authorMapper;
@@ -96,11 +99,21 @@ public class AuthorController {
      */
     @PostMapping(path = "/authors")
     public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO){
-        System.out.println("Here, we return ResponseEntity instead of directly AuthorDTO, because altohgu http status code frosucceessful creation is 201, but spring returns only 200 as repsonse code, so wihile we are eorfrming test, our test would fail, by usin ResponseENtity, we can control the repsons code ebign returned");
+
+//        Here, we return ResponseEntity instead of directly AuthorDTO, because although http status code for successful creation is 201, but spring returns only 200 as response code, so while we are performing test, our test would fail, by usin ResponseEntity, we can control the response code being returned
+
         Author retrievedAuthor = authorMapper.mapTo(authorDTO);
         Author savedAuthor = authorService.saveAuthor(retrievedAuthor);
         return new ResponseEntity<>(authorMapper.mapFrom(savedAuthor), HttpStatus.CREATED);
     }
+
+
+    @GetMapping(path = "/authors")
+    public List<AuthorDTO> listAuthors(){
+        List<Author> authors = authorService.findAll();
+        return authors.stream().map(authorMapper::mapFrom).toList();
+    }
+
 
 
 }
