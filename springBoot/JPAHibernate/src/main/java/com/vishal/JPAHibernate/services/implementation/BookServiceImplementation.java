@@ -4,9 +4,11 @@ import com.vishal.JPAHibernate.Entities.Author;
 import com.vishal.JPAHibernate.Entities.Book;
 import com.vishal.JPAHibernate.repositories.BookRepository;
 import com.vishal.JPAHibernate.services.BookService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServiceImplementation implements BookService {
@@ -27,7 +29,22 @@ public class BookServiceImplementation implements BookService {
         return bookRepository.findAll();
     }
 
+    @Override
+    public Boolean isExists(String isbn) {
+        return bookRepository.existsById(isbn);
 
+    }
 
+    @Override
+    public Book partialUpdateBook(Book newBook) {
+        return bookRepository.findById(newBook.getIsbn()).map(oldBook -> {
+            Optional.ofNullable(newBook.getAuthor()).ifPresent(oldBook
+            ::setAuthor);
+            Optional.ofNullable(newBook.getTitle()).ifPresent(oldBook
+                    ::setTitle);
 
+            return saveBook(oldBook);
+
+        }).orElseThrow(() -> new EntityNotFoundException("Book not found with ISBN " + newBook.getIsbn()));
+    }
 }

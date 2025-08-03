@@ -11,5 +11,7 @@ import java.util.List;
 public interface BookService {
     public Book saveBook(Book book);
     List<Book> findAll();
+    Boolean isExists(String isbn);
+    Book partialUpdateBook(Book book);
 
 }

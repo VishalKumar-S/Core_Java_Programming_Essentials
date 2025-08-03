@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vishal.JPAHibernate.DTO.AuthorDTO;
 import com.vishal.JPAHibernate.Entities.Author;
 import com.vishal.JPAHibernate.TestDataUtil;
+import com.vishal.JPAHibernate.services.AuthorService;
+import com.vishal.JPAHibernate.services.BookService;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +38,9 @@ public class AuthorControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private AuthorService authorService;
+
 /*   Best Practice:
       * Application Code: Use Constructor Injection.•
       * Test Code: Use Field Injection.
@@ -55,9 +60,47 @@ public class AuthorControllerIntegrationTest {
     @Test
     @Transactional
     public void testCreateAuthorReturnsStatusCode201AndSavedAuthor() throws Exception {
+
         AuthorDTO authorDTO = TestDataUtil.getAuthorDTO1();
         String authorDtoJson = objectMapper.writeValueAsString(authorDTO);
         mockMvc.perform(MockMvcRequestBuilders.post("/authors").contentType(MediaType.APPLICATION_JSON).content(authorDtoJson)).andExpect(MockMvcResultMatchers.status().isCreated()).andExpect(MockMvcResultMatchers.jsonPath("$.author_id").isNumber()).andExpect(MockMvcResultMatchers.jsonPath("$.name").value(authorDTO.getName())).andExpect(MockMvcResultMatchers.jsonPath("$.vayasu").value(authorDTO.getAge()));
+    }
+
+
+
+
+
+
+    @Test
+    @Transactional
+    public void testListAuthorsReturnsStatusCode200AndListOfAuthors() throws Exception {
+
+        Author author = TestDataUtil.getAuthor1();
+        authorService.saveAuthor(author);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/authors")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$").isArray()).andExpect(MockMvcResultMatchers.jsonPath("$[0].author_id").isNumber()).andExpect(MockMvcResultMatchers.jsonPath("$[0].name").isString());
+    }
+
+    @Test
+    @Transactional
+    public void testAuthorCanBeReadandReturnsStatusCode200AndAuthor() throws Exception {
+        Author author = TestDataUtil.getAuthor1();
+        authorService.saveAuthor(author);
+        mockMvc.perform(MockMvcRequestBuilders.get("/authors/{id}", author.getAuthor_id())).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.author_id").value(author.getAuthor_id())).andExpect(MockMvcResultMatchers.jsonPath("$.name").value(author.getAuthorName())).andExpect(MockMvcResultMatchers.jsonPath("$.vayasu").value(author.getAge()));
+    }
+
+
+    @Test
+    @Transactional
+    public void testAuthorCanBePartiallyUpdatedandReturnsStatusCode200AndAuthor() throws Exception {
+        Author existingAuthor = TestDataUtil.getAuthor1();
+        authorService.saveAuthor(existingAuthor);
+
+        AuthorDTO partiallyUpdatedauthorDTO = AuthorDTO.builder().name("Updated via patch Integration Test").build();
+
+        String authorDtoJson = objectMapper.writeValueAsString(partiallyUpdatedauthorDTO);
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/authors/{id}", existingAuthor.getAuthor_id()).contentType(MediaType.APPLICATION_JSON).content(authorDtoJson)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.author_id").value(existingAuthor.getAuthor_id())).andExpect(MockMvcResultMatchers.jsonPath("$.name").value(partiallyUpdatedauthorDTO.getName())).andExpect(MockMvcResultMatchers.jsonPath("$.vayasu").value(existingAuthor.getAge()));
     }
 
 

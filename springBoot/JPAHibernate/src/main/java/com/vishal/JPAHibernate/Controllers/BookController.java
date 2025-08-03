@@ -1,7 +1,9 @@
 package com.vishal.JPAHibernate.Controllers;
 
+import com.vishal.JPAHibernate.DTO.AuthorDTO;
 import com.vishal.JPAHibernate.DTO.BookDTO;
 import com.vishal.JPAHibernate.DTO.BookResponseDTO;
+import com.vishal.JPAHibernate.Entities.Author;
 import com.vishal.JPAHibernate.Entities.Book;
 import com.vishal.JPAHibernate.mappers.BookMapper;
 import com.vishal.JPAHibernate.services.BookService;
@@ -10,6 +12,75 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+/**
+ * =================================================================================================
+ * The Critical Need for Separate Response DTOs (e.g., BookResponseDTO)
+ * =================================================================================================
+ *
+ * Q: Why did we create `BookResponseDTO` and `AuthorResponseDTO`? Why not just return the `BookDTO`
+ *    that we use for requests?
+ *
+ * A: The answer lies in preventing a catastrophic infinite loop during JSON serialization, which
+ *    is caused by the bidirectional relationship between our entities.
+ *
+ *
+ * --- The Story of the Infinite Loop ---
+ *
+ * Imagine we try to return a `BookDTO` directly from our controller. The `BookDTO` has a field
+ * `private AuthorDTO author;`, and the `AuthorDTO` has `private List<BookDTO> books;`.
+ *
+ * When the Jackson library tries to convert this to a JSON string for the response, this happens:
+ *
+ * 1.  **Jackson starts with the `BookDTO`:**
+ *     It begins writing: `{"isbn":"123", "title":"My Book", "author": ...`
+ *
+ * 2.  **Jackson moves to the `AuthorDTO`:**
+ *     It begins writing the author: `{"author_id":1, "name":"Vishal", "books": ...`
+ *
+ * 3.  **Jackson moves to the `List<BookDTO>` inside the `AuthorDTO`:**
+ *     It finds the first book in the list, which is the *exact same book object* we started with!
+ *     It begins writing the book again: `[ {"isbn":"123", "title":"My Book", "author": ...`
+ *
+ * 4.  **Jackson is now trapped.** It will try to serialize the author of that book, which leads back
+ *     to the list of books, and so on, forever. This creates a `StackOverflowError` and crashes
+ *     the application.
+ *
+ *
+ * --- Flawed Solution vs. The Professional Solution ---
+ *
+ * 1.  **The Flawed Fix (`@JsonBackReference`):**
+ *     We can put `@JsonBackReference` on the `author` field in `BookDTO`. This "solves" the crash
+ *     by telling Jackson: "Don't serialize this field at all." The result is that the `author`
+ *     field is completely missing from the JSON response. This is bad because the client loses
+ *     crucial information.
+ *
+ * 2.  **The Professional Solution (Separate Response DTOs):**
+ *     This is the pattern we have implemented. We create a "view" of our data specifically for
+ *     API responses.
+ *
+ *     - `BookResponseDTO`: This is what our API returns. It contains a field for the author.
+ *     - `AuthorResponseDTO` (or `AuthorSummaryDTO`): This is the key. This DTO contains the
+ *       author's details but **intentionally omits the `List<Book>` field**.
+ *
+ *     By doing this, we break the infinite loop. Jackson can serialize the `BookResponseDTO`, then
+ *     the `AuthorResponseDTO`, and then it stops because there's no list of books to send it
+ *     back to the beginning.
+ *
+ *
+ * --- The Advantages of This Pattern ---
+ *
+ * - **Prevents Crashes:** It's the most robust way to handle bidirectional relationships.
+ * - **API Stability:** We have a stable, explicit contract with our clients. We can change our
+ *   internal `BookDTO` (used for requests) without breaking the `BookResponseDTO` that clients
+ *   depend on.
+ * - **Clarity:** It makes the flow of data explicit. One set of objects defines what comes in,
+ *   and another defines what goes out.
+ *
+ * @see com.vishal.JPAHibernate.DTO.BookResponseDTO
+ * @see com.vishal.JPAHibernate.DTO.AuthorResponseDTO
+ */
+
 
 @RestController
 public class BookController {
@@ -31,9 +102,15 @@ public class BookController {
     public ResponseEntity<BookResponseDTO> createOrUpdateBook(@PathVariable String isbn, @RequestBody BookDTO bookDTO) {
         bookDTO.setIsbn(isbn);
         Book retrievedBook = bookMapper.mapTo(bookDTO);
+        Boolean bookAlreadyExists = bookService.isExists(retrievedBook.getIsbn());
         Book savedBook = bookService.saveBook(retrievedBook);
         BookResponseDTO bookResponseDTO = bookMapper.mapBookEntitiyToResponse(savedBook);
-        return new ResponseEntity<>(bookResponseDTO, HttpStatus.OK);
+        if(bookAlreadyExists){
+            return new ResponseEntity<>(bookResponseDTO, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(bookResponseDTO, HttpStatus.CREATED);
+        }
     }
 
 
@@ -41,6 +118,22 @@ public class BookController {
     public List<BookResponseDTO> listBooks(){
         List<Book> books = bookService.findAll();
         return books.stream().map(bookMapper::mapBookEntitiyToResponse).toList();
+    }
+
+
+
+    @PatchMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookResponseDTO> partialUpdate(@PathVariable String isbn, @RequestBody BookDTO bookDTO){
+        if(!bookService.isExists(isbn)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Book book = bookMapper.mapTo(bookDTO);
+        book.setIsbn(isbn);
+        Book updatedBook = bookService.partialUpdateBook(book);
+        BookResponseDTO bookResponseDTO = bookMapper.mapBookEntitiyToResponse(updatedBook);
+
+
+        return new ResponseEntity<>(bookResponseDTO, HttpStatus.OK);
     }
 
 

@@ -7,11 +7,13 @@ import com.vishal.JPAHibernate.Entities.Author;
 import com.vishal.JPAHibernate.Entities.Book;
 import com.vishal.JPAHibernate.mappers.AuthorMapper;
 import com.vishal.JPAHibernate.services.AuthorService;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -115,5 +117,38 @@ public class AuthorController {
     }
 
 
+    @GetMapping(path = "/authors/{id}")
+    public ResponseEntity<AuthorDTO> readOne(@PathVariable Integer id) {
+        Optional<Author> authors = authorService.findOne(id);
+        return authors.map(author -> new ResponseEntity<>(authorMapper.mapFrom(author), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND)
+        );
 
+    }
+
+
+    @PutMapping(path = "/authors/{id}")
+    public ResponseEntity<AuthorDTO> fullUpdate(@PathVariable Integer id, @RequestBody AuthorDTO authorDTO){
+        if(!authorService.isExists(id)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Author author = authorMapper.mapTo(authorDTO);
+        author.setAuthor_id(id);
+        Author updatedAuthor = authorService.saveAuthor(author);
+        return new ResponseEntity<>(authorMapper.mapFrom(updatedAuthor), HttpStatus.OK);
+    }
+
+
+    @PatchMapping(path = "/authors/{id}")
+    public ResponseEntity<AuthorDTO> partialUpdate(@PathVariable Integer id, @RequestBody AuthorDTO authorDTO){
+        if(!authorService.isExists(id)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Author author = authorMapper.mapTo(authorDTO);
+        author.setAuthor_id(id);
+        Author updatedAuthor = authorService.partialUpdateAuthor(author);
+
+        return new ResponseEntity<>(authorMapper.mapFrom(updatedAuthor), HttpStatus.OK);
+
+
+    }
 }
