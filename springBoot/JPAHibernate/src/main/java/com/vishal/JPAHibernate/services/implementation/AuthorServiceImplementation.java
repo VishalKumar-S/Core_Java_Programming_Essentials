@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 @Service
 public class AuthorServiceImplementation implements AuthorService {
 
-    private AuthorRepository authorRepository;
-    private BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
 
     public AuthorServiceImplementation(AuthorRepository authorRepository, BookRepository bookRepository) {
         this.authorRepository = authorRepository;
@@ -55,13 +55,16 @@ public class AuthorServiceImplementation implements AuthorService {
 
                 oldAuthor.getBooks().clear();
 
-                for(Book bookObjects: persistentBook){
-                    oldAuthor.addBook(bookObjects);
-                }
+                persistentBook.forEach(oldAuthor::addBook);
             }
 
             return authorRepository.save(oldAuthor);
 
         }).orElseThrow(() -> new EntityNotFoundException("Author not found with ID " + newAuthor.getAuthor_id()));
+    }
+
+    @Override
+    public void deleteAuthor(Integer id) {
+        authorRepository.delete(authorRepository.findById(id).get());
     }
 }

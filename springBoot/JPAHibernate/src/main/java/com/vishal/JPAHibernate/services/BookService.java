@@ -13,5 +13,5 @@ public interface BookService {
     List<Book> findAll();
     Boolean isExists(String isbn);
     Book partialUpdateBook(Book book);
-
+    public void deleteBook(String isbn);
 }

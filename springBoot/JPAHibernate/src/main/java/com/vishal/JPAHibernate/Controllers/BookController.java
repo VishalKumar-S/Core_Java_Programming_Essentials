@@ -137,6 +137,17 @@ public class BookController {
     }
 
 
+    @DeleteMapping(path = "/books/{isbn}")
+    public ResponseEntity deleteBook(@PathVariable String isbn){
+        if(!bookService.isExists(isbn)){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        bookService.deleteBook(isbn);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+
 
 
 }

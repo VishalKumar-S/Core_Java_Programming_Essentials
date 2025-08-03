@@ -19,6 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 /**
  * This is a full integration test for the AuthorController.
@@ -103,6 +104,14 @@ public class AuthorControllerIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.patch("/authors/{id}", existingAuthor.getAuthor_id()).contentType(MediaType.APPLICATION_JSON).content(authorDtoJson)).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$.author_id").value(existingAuthor.getAuthor_id())).andExpect(MockMvcResultMatchers.jsonPath("$.name").value(partiallyUpdatedauthorDTO.getName())).andExpect(MockMvcResultMatchers.jsonPath("$.vayasu").value(existingAuthor.getAge()));
     }
 
+
+    @Test
+    @Transactional
+    public void testAuthorCanBeDeletedandReturnsStatusCode204() throws Exception{
+        Author author = TestDataUtil.getAuthor1();
+        authorService.saveAuthor(author);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/authors/{id}", author.getAuthor_id())).andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
 
 
 

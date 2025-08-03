@@ -47,4 +47,11 @@ public class BookServiceImplementation implements BookService {
 
         }).orElseThrow(() -> new EntityNotFoundException("Book not found with ISBN " + newBook.getIsbn()));
     }
+
+    @Override
+    public void deleteBook(String isbn) {
+        bookRepository.delete(bookRepository.findById(isbn).get());
+    }
+
+
 }
